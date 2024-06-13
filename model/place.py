@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from datetime import datetime
 import uuid
 
@@ -23,9 +24,6 @@ class Place:
     def add_review(self, review):
         self.reviews.append(review)
 
-        #agrega una revision a la lista de revisiones que esten asociadas al lugar y agrega nuevas review.
 
     def add_amenity(self, amenity):
         self.amenities.append(amenity)
-
-        #agrega una amenidad/servicio/comodidad a la lista de amenidades asociadas a un lugar. me sirve para añadir una caracteristica adiconal.
