@@ -9,14 +9,13 @@ class BusinessLogic:
         return True
 
     @staticmethod
-    def validate_host_unique_place(host):
+    def validate_host_unique_place(host, place):
         for places in DataPersistence.read_data('places'):
-            if places.host == host:
+            if places.host == host and places.place_name == place:
                 return False
         return True
-    
+
 
     @staticmethod
     def process_data(data):
         return data
-    
