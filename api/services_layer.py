@@ -6,7 +6,7 @@ class ServicesLayer:
         # Analizamos la solicitud JSON que se ingresa
         request_data = json.loads(request)
         
-        # Estraemos el tipo de solicitud y los datos
+        # Extraemos el tipo de solicitud y los datos
         request_type = request_data.get("type")
         data = request_data.get("data")
         
@@ -53,40 +53,40 @@ class ServicesLayer:
 
     @staticmethod
     def handle_responses(response):
-        # Format the response data into JSON
+        # Damos formato a los datos de respuesta en JSON
         response_data = json.dumps(response)
         
-        # Return the JSON-formatted response
+        # Devolvemos la respuesta con formato JSON
         return response_data
 
-# Example utility functions (implement these according to your database or storage logic)
+# Funciones de utilidad de ejemplo (impleméntelas de acuerdo con su base de datos o lógica de almacenamiento)
 def get_all_users():
-    # Dummy data, replace with actual logic
+    # Datos ficticios, reemplácelos con lógica real
     return [
         {"id": 1, "name": "John Doe", "email": "john.doe@example.com"},
         {"id": 2, "name": "Jane Doe", "email": "jane.doe@example.com"}
     ]
 
 def get_user_by_id(user_id):
-    # Dummy data, replace with actual logic
+    # Datos ficticios, reemplácelos con lógica real
     if user_id == 1:
         return {"id": 1, "name": "John Doe", "email": "john.doe@example.com"}
     else:
         return None
 
 def create_user(user_data):
-    # Dummy data, replace with actual logic
+    # Datos ficticios, reemplácelos con lógica real
     return {"id": 3, "name": user_data["name"], "email": user_data["email"]}
 
 def update_user(user_id, updated_data):
-    # Dummy data, replace with actual logic
+    # Datos ficticios, reemplácelos con lógica real
     if user_id == 1:
         return {"id": 1, "name": updated_data["name"], "email": updated_data["email"]}
     else:
         return None
 
 def delete_user(user_id):
-    # Dummy data, replace with actual logic
+    # Datos ficticios, reemplácelos con lógica real
     if user_id == 1:
         return True
     else:
