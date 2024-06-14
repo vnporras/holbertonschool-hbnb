@@ -15,11 +15,11 @@ class ServicesLayer:
         
         # Procesamos la solicitud en funcion del tipo
         if request_type == "GET_ALL_USERS":
-            # Logic to get all users
+            # Logica para conseguir todos los usuarios
             users = get_all_users()
             response = {"status": "success", "data": users}
         elif request_type == "GET_USER":
-            # Logic to get a specific user by ID
+            # Logica para obtener un usuario especifico por ID
             user_id = data.get("id")
             user = get_user_by_id(user_id)
             if user:
@@ -27,12 +27,12 @@ class ServicesLayer:
             else:
                 response = {"status": "error", "message": "User not found"}
         elif request_type == "CREATE_USER":
-            # Logic to create a new user
+            # Logica para crear usuarios nuevos
             user_data = data
             new_user = create_user(user_data)
             response = {"status": "success", "data": new_user}
         elif request_type == "UPDATE_USER":
-            # Logic to update a specific user
+            # Logica para actualizar usuario especifico
             user_id = data.get("id")
             updated_data = data.get("data")
             updated_user = update_user(user_id, updated_data)
@@ -41,14 +41,14 @@ class ServicesLayer:
             else:
                 response = {"status": "error", "message": "User not found or update failed"}
         elif request_type == "DELETE_USER":
-            # Logic to delete a specific user
+            # Logica para eliminar un usuario especifico
             user_id = data.get("id")
             if delete_user(user_id):
                 response = {"status": "success", "message": "User deleted successfully"}
             else:
                 response = {"status": "error", "message": "User not found or deletion failed"}
         
-        # Return response data
+        # Retorno de los datos respuesta
         return response
 
     @staticmethod
