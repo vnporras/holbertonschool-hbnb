@@ -59,34 +59,34 @@ class ServicesLayer:
         # Devolvemos la respuesta con formato JSON
         return response_data
 
-# Funciones de utilidad de ejemplo (impleméntelas de acuerdo con su base de datos o lógica de almacenamiento)
+# Funciones de utilidad de ejemplo (impleméntamos de acuerdo con su base de datos o lógica de almacenamiento)
 def get_all_users():
-    # Datos ficticios, reemplácelos con lógica real
+    # Datos ficticios, los reemplazamos después con lógica real
     return [
         {"id": 1, "name": "John Doe", "email": "john.doe@example.com"},
         {"id": 2, "name": "Jane Doe", "email": "jane.doe@example.com"}
     ]
 
 def get_user_by_id(user_id):
-    # Datos ficticios, reemplácelos con lógica real
+    # Datos ficticios, los reemplazamos después con lógica real
     if user_id == 1:
         return {"id": 1, "name": "John Doe", "email": "john.doe@example.com"}
     else:
         return None
 
 def create_user(user_data):
-    # Datos ficticios, reemplácelos con lógica real
+    # Datos ficticios, los reemplazamos después con lógica real
     return {"id": 3, "name": user_data["name"], "email": user_data["email"]}
 
 def update_user(user_id, updated_data):
-    # Datos ficticios, reemplácelos con lógica real
+    # Datos ficticios, los reemplazamos después con lógica real
     if user_id == 1:
         return {"id": 1, "name": updated_data["name"], "email": updated_data["email"]}
     else:
         return None
 
 def delete_user(user_id):
-    # Datos ficticios, reemplácelos con lógica real
+    # Datos ficticios, los reemplazamos después con lógica real
     if user_id == 1:
         return True
     else:
