@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from datetime import datetime
 import uuid
+import re
 from persistence.data_persistence import DataPersistence
 from persistence.business_logic import BusinessLogic
 
@@ -49,6 +50,9 @@ class User:
     def write_reviews(self):
       pass
 
+    def is_valid_email(self):
+        regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+        return re.search(regex, self.email) is not None
 """
 product1 = User('email', 'sebas', 'meneses', 'salazar')
 print(product1.email, product1.password, product1.last_name, product1.first_name,)  # Output: Laptop 1200 10
