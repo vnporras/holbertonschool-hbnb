@@ -23,7 +23,8 @@ class Place:
 
     def add_review(self, review):
         self.reviews.append(review)
-
+        self.updated_at = datetime.now()
 
     def add_amenity(self, amenity):
         self.amenities.append(amenity)
+        self.updated_at = datetime.now()
