@@ -1,93 +1,100 @@
-import json
+from flask import jsonify, request
+from persistence.data_manager import DataManager
+from model.user import User
+from model.place import Place
+from model.city import City
+from model.country import Country
+from model.state import State
+from model.amenity import Amenity
+from model.review import Review
+
+data_manager = DataManager()
 
 class ServicesLayer:
     @staticmethod
     def handle_requests(request):
-        # Analizamos la solicitud JSON que se ingresa
-        request_data = json.loads(request)
-        
-        # Extraemos el tipo de solicitud y los datos
-        request_type = request_data.get("type")
-        data = request_data.get("data")
-        
-        # Inicializamos la respuesta
-        response = {"status": "error", "message": "Invalid request"}
-        
-        # Procesamos la solicitud en funcion del tipo
-        if request_type == "GET_ALL_USERS":
-            # Logica para conseguir todos los usuarios
-            users = get_all_users()
-            response = {"status": "success", "data": users}
-        elif request_type == "GET_USER":
-            # Logica para obtener un usuario especifico por ID
-            user_id = data.get("id")
-            user = get_user_by_id(user_id)
-            if user:
-                response = {"status": "success", "data": user}
-            else:
-                response = {"status": "error", "message": "User not found"}
-        elif request_type == "CREATE_USER":
-            # Logica para crear usuarios nuevos
-            user_data = data
-            new_user = create_user(user_data)
-            response = {"status": "success", "data": new_user}
-        elif request_type == "UPDATE_USER":
-            # Logica para actualizar usuario especifico
-            user_id = data.get("id")
-            updated_data = data.get("data")
-            updated_user = update_user(user_id, updated_data)
-            if updated_user:
-                response = {"status": "success", "data": updated_user}
-            else:
-                response = {"status": "error", "message": "User not found or update failed"}
-        elif request_type == "DELETE_USER":
-            # Logica para eliminar un usuario especifico
-            user_id = data.get("id")
-            if delete_user(user_id):
-                response = {"status": "success", "message": "User deleted successfully"}
-            else:
-                response = {"status": "error", "message": "User not found or deletion failed"}
-        
-        # Retorno de los datos respuesta
-        return response
+        if request.method == 'POST':
+            return ServicesLayer.create_entity(request)
+        elif request.method == 'GET':
+            return ServicesLayer.read_entity(request)
+        elif request.method == 'PUT':
+            return ServicesLayer.update_entity(request)
+        elif request.method == 'DELETE':
+            return ServicesLayer.delete_entity(request)
+        return jsonify({'message': 'Invalid request method'}), 400
 
     @staticmethod
-    def handle_responses(response):
-        # Damos formato a los datos de respuesta en JSON
-        response_data = json.dumps(response)
+    def handle_response(response):
+        return jsonify(response)
+
+    @staticmethod
+    def create_entity(request):
+        data = request.json
+        entity_type = data.get('entity_type')
+        entity_data = data.get('entity_data')
+
+        if entity_type == 'user':
+            entity = User(**entity_data)
+        elif entity_type == 'place':
+            entity = Place(**entity_data)
+        elif entity_type == 'city':
+            entity = City(**entity_data)
+        elif entity_type == 'country':
+            entity = Country(**entity_data)
+        elif entity_type == 'state':
+            entity = State(**entity_data)
+        elif entity_type == 'amenity':
+            entity = Amenity(**entity_data)
+        elif entity_type == 'review':
+            entity = Review(**entity_data)
+        else:
+            return jsonify({'message': 'Invalid entity type'}), 400
+
+        data_manager.save(entity)
+        return jsonify({'message': f'{entity_type.capitalize()} created successfully', 'entity': entity.__dict__}), 201
+
+    @staticmethod
+    def read_entity(request):
+        entity_id = request.args.get('id')
+        entity_type = request.args.get('type')
         
-        # Devolvemos la respuesta con formato JSON
-        return response_data
+        if not entity_id or not entity_type:
+            return jsonify({'message': 'Missing parameters'}), 400
 
-# Funciones de utilidad de ejemplo (impleméntamos de acuerdo con su base de datos o lógica de almacenamiento)
-def get_all_users():
-    # Datos ficticios, los reemplazamos después con lógica real
-    return [
-        {"id": 1, "name": "John Doe", "email": "john.doe@example.com"},
-        {"id": 2, "name": "Jane Doe", "email": "jane.doe@example.com"}
-    ]
+        entity = data_manager.get(entity_id, entity_type)
+        if entity:
+            return jsonify(entity.__dict__), 200
+        return jsonify({'message': f'{entity_type.capitalize()} not found'}), 404
 
-def get_user_by_id(user_id):
-    # Datos ficticios, los reemplazamos después con lógica real
-    if user_id == 1:
-        return {"id": 1, "name": "John Doe", "email": "john.doe@example.com"}
-    else:
-        return None
+    @staticmethod
+    def update_entity(request):
+        data = request.json
+        entity_id = data.get('id')
+        entity_type = data.get('type')
+        entity_data = data.get('data')
+        
+        entity = data_manager.get(entity_id, entity_type)
+        if not entity:
+            return jsonify({'message': f'{entity_type.capitalize()} not found'}), 404
+        
+        for key, value in entity_data.items():
+            setattr(entity, key, value)
+        entity.updated_at = datetime.now()
+        
+        data_manager.update(entity)
+        return jsonify({'message': f'{entity_type.capitalize()} updated successfully', 'entity': entity.__dict__}), 200
 
-def create_user(user_data):
-    # Datos ficticios, los reemplazamos después con lógica real
-    return {"id": 3, "name": user_data["name"], "email": user_data["email"]}
+    @staticmethod
+    def delete_entity(request):
+        entity_id = request.args.get('id')
+        entity_type = request.args.get('type')
+        
+        if not entity_id or not entity_type:
+            return jsonify({'message': 'Missing parameters'}), 400
 
-def update_user(user_id, updated_data):
-    # Datos ficticios, los reemplazamos después con lógica real
-    if user_id == 1:
-        return {"id": 1, "name": updated_data["name"], "email": updated_data["email"]}
-    else:
-        return None
-
-def delete_user(user_id):
-    # Datos ficticios, los reemplazamos después con lógica real
-    if user_id == 1:
-        return True
-    else:
-        return False
+        entity = data_manager.get(entity_id, entity_type)
+        if not entity:
+            return jsonify({'message': f'{entity_type.capitalize()} not found'}), 404
+        
+        data_manager.delete(entity_id, entity_type)
+        return jsonify({'message': f'{entity_type.capitalize()} deleted successfully'}), 200

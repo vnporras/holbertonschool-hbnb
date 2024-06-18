@@ -10,11 +10,10 @@ class BusinessLogic:
 
     @staticmethod
     def validate_host_unique_place(host, place):
-        for places in DataPersistence.read_data('places'):
-            if places.host == host and places.place_name == place:
+        for existing_place in DataPersistence.read_data('places'):
+            if existing_place.host == host and existing_place.name == place.name:
                 return False
         return True
-
 
     @staticmethod
     def process_data(data):
