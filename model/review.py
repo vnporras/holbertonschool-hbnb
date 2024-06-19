@@ -2,6 +2,7 @@
 from datetime import datetime
 import uuid
 
+
 class Review:
     def __init__(self, user, place, text, rating):
         self.user = user

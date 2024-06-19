@@ -2,8 +2,23 @@
 from datetime import datetime
 import uuid
 
+
 class Place:
-    def __init__(self, name, description, address, city, latitude, longitude, host, num_rooms, num_bathrooms, price_per_night, max_guests, amenities=None):
+    def __init__(
+        self,
+        name,
+        description,
+        address,
+        city,
+        latitude,
+        longitude,
+        host,
+        num_rooms,
+        num_bathrooms,
+        price_per_night,
+        max_guests,
+        amenities=None,
+    ):
         self.name = name
         self.description = description
         self.address = address

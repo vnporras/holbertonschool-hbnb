@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+
 class Country:
     def __init__(self, name):
         self.name = name
